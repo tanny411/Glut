@@ -6,7 +6,7 @@
 #include<bits/stdc++.h>
 #define PI acos(-1)
 using namespace std;
-
+double inx,finx,iny,finy;
 static void circle(void){
     glClear(GL_COLOR_BUFFER_BIT);
     GLint circle_points=1000;
@@ -18,7 +18,7 @@ static void circle(void){
         glEnd();
     glutSwapBuffers();
 }
-static void lineAlgo(double inx,double iny,double finx,double finy){
+static void simpleLineAlgo(void){
     int ix=round(inx);
     int iy=round(iny);
     int fx=round(finx);
@@ -29,17 +29,155 @@ static void lineAlgo(double inx,double iny,double finx,double finy){
     glVertex2d(ix,iy);
 
     if(finy-iny==0){///x-axis parallel
-
+        while(ix<=fx){
+            ix++;
+            glVertex2d(ix,iy);
+        }
     }
     else if(finx-inx==0){///y-axis parallel
-
+        while(iy<=fy){
+            iy++;
+            glVertex2d(ix,iy);
+        }
     }
     else if(finx-inx==finy-iny){///m=1
-
+        while(iy<=fy){
+            iy++;
+            ix++;
+            glVertex2d(ix,iy);
+        }
     }
     else{
         double m=(finy-iny)/(finx-inx);
-//        glVertex2d();
+        double b=iny-m*ix;
+        if(m>1){
+            while(ix<=fx)
+            {
+                ix++;
+                iy=round(m*ix+b);
+                glVertex2d(ix,iy);
+            }
+        }
+        else{
+            while(iy<=fy)
+            {
+                iy++;
+                ix=round( (iy-b)/m );
+                glVertex2d(ix,iy);
+            }
+        }
+    }
+
+    glEnd();
+    glutSwapBuffers();
+}
+static void DDA(void)
+{
+    int ix=round(inx);
+    int iy=round(iny);
+    int fx=round(finx);
+    int fy=round(finy);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_POINTS);
+    glVertex2d(ix,iy);
+
+    if(finy-iny==0){///x-axis parallel
+        while(ix<=fx){
+            ix++;
+            glVertex2d(ix,iy);
+        }
+    }
+    else if(finx-inx==0){///y-axis parallel
+        while(iy<=fy){
+            iy++;
+            glVertex2d(ix,iy);
+        }
+    }
+    else if(finx-inx==finy-iny){///m=1
+        while(iy<=fy){
+            iy++;
+            ix++;
+            glVertex2d(ix,iy);
+        }
+    }
+    else{
+        double m=(finy-iny)/(finx-inx);
+        double b=iny-m*ix;
+        if(m>1){
+            while(ix<=fx)
+            {
+                ix++;
+                iy=round(iy+m);
+                glVertex2d(ix,iy);
+            }
+        }
+        else{
+            while(iy<=fy)
+            {
+                iy++;
+                ix=round(ix+1/m);
+                glVertex2d(ix,iy);
+            }
+        }
+    }
+
+    glEnd();
+    glutSwapBuffers();
+}
+static void Bresenhams(void)
+{
+    int ix=round(inx);
+    int iy=round(iny);
+    int fx=round(finx);
+    int fy=round(finy);
+
+    glClear(GL_COLOR_BUFFER_BIT);
+    glBegin(GL_POINTS);
+    glVertex2d(ix,iy);
+
+    if(finy-iny==0){///x-axis parallel
+        while(ix<=fx){
+            ix++;
+            glVertex2d(ix,iy);
+        }
+    }
+    else if(finx-inx==0){///y-axis parallel
+        while(iy<=fy){
+            iy++;
+            glVertex2d(ix,iy);
+        }
+    }
+    else if(finx-inx==finy-iny){///m=1
+        while(iy<=fy){
+            iy++;
+            ix++;
+            glVertex2d(ix,iy);
+        }
+    }
+    else{
+        double dx=finx-inx;
+        double dy=finy-iny;
+        double m=dy/dx;
+        if(m>1){
+            swap(ix,iy);
+            swap(fx,fy);
+            swap(dx,dy);
+        }
+        int d=dy+dy-dx;
+        while(ix<=fx){
+            ix++;
+            if(d>=0){
+                d+=dy+dy-dx-dx;
+            }
+            else{
+                d+=dy+dy;
+                if(m>0) iy++;
+                else iy--;
+            }
+            if(m>1) glVertex2d(iy,ix);
+            else glVertex2d(ix,iy);
+        }
     }
 
     glEnd();
@@ -47,18 +185,20 @@ static void lineAlgo(double inx,double iny,double finx,double finy){
 }
 int main(int argc, char *argv[])
 {
+    cin>>inx>>iny>>finx>>finy;
+
     glutInit(&argc, argv);
+    glutInitDisplayMode(GLUT_RGB | GLUT_SINGLE);
     glutInitWindowSize(640,640);
     glutInitWindowPosition(10,10);
-    glutInitDisplayMode(GLUT_RGB | GLUT_DOUBLE | GLUT_DEPTH);
 
-    glClearColor(0.0,0.0,0.0,1.0);
+    glutCreateWindow("Tanny");
+
+    glClearColor(0.0,0.0,0.0,0);
     glColor3f(1.0,0.0,0.0);
     gluOrtho2D(-100.0,100.0,-100.0,100.0);
 
-    glutCreateWindow("Tanny Osthir");
-
-    glutDisplayFunc(circle);
+    glutDisplayFunc(Bresenhams);
 
     glutMainLoop();
 
