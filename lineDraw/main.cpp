@@ -2,8 +2,6 @@
 #include <stdio.h>
 #include <math.h>
 #include <GL/glut.h>
-
-
 /* Program entry point */
 
 double X1, Y1, X2, Y2;

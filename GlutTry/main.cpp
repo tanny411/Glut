@@ -159,23 +159,23 @@ static void Bresenhams(void)
         double dx=finx-inx;
         double dy=finy-iny;
         double m=dy/dx;
-        if(m>1){
+        if(abs(m)>1){
             swap(ix,iy);
             swap(fx,fy);
             swap(dx,dy);
         }
-        int d=dy+dy-dx;
+        double d=dy+dy-dx;
         while(ix<=fx){
             ix++;
             if(d>=0){
                 d+=dy+dy-dx-dx;
-            }
-            else{
-                d+=dy+dy;
                 if(m>0) iy++;
                 else iy--;
             }
-            if(m>1) glVertex2d(iy,ix);
+            else{
+                d+=dy+dy;
+            }
+            if(abs(m)>1) glVertex2d(iy,ix);
             else glVertex2d(ix,iy);
         }
     }
