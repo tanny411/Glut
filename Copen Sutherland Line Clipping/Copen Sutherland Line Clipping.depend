@@ -1,7 +1,8 @@
 # depslib dependency file v1.0
-1538567810 source:e:\glut\2015331028_scan_line\main.cpp
-	<bits/stdc++.h>
+1540962212 source:e:\glut\copen sutherland line clipping\main.cpp
+	<GLUT/glut.h>
 	<GL/glut.h>
+	<bits/stdc++.h>
 
 1534845700 c:\program files (x86)\codeblocks\mingw\include\gl\glut.h
 	"freeglut_std.h"

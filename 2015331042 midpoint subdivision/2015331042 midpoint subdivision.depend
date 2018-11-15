@@ -1,6 +1,5 @@
 # depslib dependency file v1.0
-1537939823 source:e:\glut\028_coordinate\main.cpp
-	<GLUT/glut.h>
+1542079858 source:e:\glut\2015331042 midpoint subdivision\main.cpp
 	<GL/glut.h>
 	<bits/stdc++.h>
 
