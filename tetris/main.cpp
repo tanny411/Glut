@@ -888,8 +888,8 @@ int main(int argc, char *argv[])
 
     glutReshapeFunc(resize);
     glutDisplayFunc(display);
-    //glutKeyboardFunc(key);
-    //glutIdleFunc(idle);
+    glutKeyboardFunc(key);
+    glutIdleFunc(idle);
 
     init();
     glutMainLoop();
